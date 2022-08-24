@@ -36,8 +36,47 @@ export const deleteUser = async (req, res, next) => {
     return next(createError(403, "You can delete only your account!"));
   }
 };
-export const getUser = async (req, res, next) => {};
-export const subscribe = async (req, res, next) => {};
-export const unsubscribe = async (req, res, next) => {};
-export const like = async (req, res, next) => {};
-export const dislike = async (req, res, next) => {};
+export const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      return next(createError(404, 'User not found'))
+    }
+    res.status(200).json(user)
+  } catch (err) {
+    next(err)
+  }
+};
+export const subscribe = async (req, res, next) => {
+  const userId = req.user.id;
+  const channelId = req.params.id
+  try {
+    await User.findById(userId, {
+      $push:{subscribedUsers: channelId}
+    })
+    await User.findByIdAndUpdate(channelId)
+  } catch (err) {
+    next(err)
+  }
+};
+export const unsubscribe = async (req, res, next) => {
+  try {
+
+  } catch (err) {
+    next(err)
+  }
+};
+export const like = async (req, res, next) => {
+  try {
+
+  } catch (err) {
+    next(err)
+  }
+};
+export const dislike = async (req, res, next) => {
+  try {
+
+  } catch (err) {
+    next(err)
+  }
+};
