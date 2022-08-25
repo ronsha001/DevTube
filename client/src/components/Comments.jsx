@@ -1,4 +1,7 @@
-import React from 'react'
+import axios from 'axios'
+import { updateCurrentUser } from 'firebase/auth'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Comment from './Comment'
 
@@ -24,26 +27,30 @@ const Input = styled.input`
   padding: 5px;
   width: 100%;
 `
-const Comments = () => {
+const Comments = ({videoId}) => {
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const [comments, setComments] = useState([])
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await axios.get(`/comments/${videoId}`)
+        setComments(res.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }, [videoId])
+
   return (
     <Container>
       <NewComment>
-        <Avatar src='https://picsum.photos/400/400'/>
+        <Avatar src={currentUser.img}/>
         <Input placeholder='Add a comment' />
       </NewComment>
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
+      {comments.map((comment) => (
+        <Comment key={comment._id} comment={comment} />
+      ))}
     </Container>
   )
 }
