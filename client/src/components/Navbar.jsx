@@ -68,8 +68,7 @@ const Avatar = styled.img`
 `;
 
 const Navbar = () => {
-  const currentUser = useSelector((state) => state.user.currentUser?.others);
-  console.log(currentUser)
+  const currentUser = useSelector((state) => state.user.currentUser);
   return (
     <Container>
       <Wrapper>
@@ -80,7 +79,7 @@ const Navbar = () => {
         {currentUser ? (
           <User>
             <VideoCallOutlinedIcon />
-            <Avatar />
+            <Avatar src={currentUser.img} alt="user img" />
             {currentUser.name}
           </User>
         ) : (
