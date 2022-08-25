@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
@@ -6,6 +6,11 @@ import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from "../components/Comments";
 import Card from "../components/Card";
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { fetchFailure, fetchStart, fetchSuccess } from "../redux/videoSlice";
+import { format } from "timeago.js";
 
 const Container = styled.div`
   display: flex;
@@ -94,6 +99,31 @@ const Subscribe = styled.button`
 `;
 
 const Video = () => {
+  const currentUser = useSelector((state) => state.user.currentUser)
+  const currentVideo = useSelector((state) => state.video)
+  const dispatch = useDispatch();
+
+  const path = useLocation().pathname.split("/")[2]
+
+  const [channel, setChannel] = useState({})
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/videos/find/${path}`)
+        const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`)
+        setChannel(channelRes.data)
+        dispatch(fetchStart())
+        dispatch(fetchSuccess(videoRes.data))
+      } catch (err) {
+        console.log(err)
+        dispatch(fetchFailure())
+      }
+    }
+    fetchData()
+  }, [path, dispatch])
+
+
   return (
     <Container>
       <Content>
@@ -103,20 +133,20 @@ const Video = () => {
             height="490"
             src="https://www.youtube.com/embed/yIaXoop8gl4"
             title="YouTube video player"
-            frameborder="0"
+            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
         </VideoWrapper>
-        <Title>Test Video</Title>
+        <Title>{currentVideo.title}</Title>
         <Details>
-          <Info>7,948,154 views | Jun 22, 2022</Info>
+          <Info>{currentVideo.views} views • {format(currentVideo.createdAt)}</Info>
           <Buttons>
             <Button>
-              <ThumbUpOutlinedIcon /> 123
+              <ThumbUpOutlinedIcon /> {currentVideo.likes?.length}
             </Button>
             <Button>
-              <ThumbDownOffAltOutlinedIcon /> Dislike
+              <ThumbDownOffAltOutlinedIcon /> {currentVideo.dislikes?.length}
             </Button>
             <Button>
               <ReplyOutlinedIcon /> Share
@@ -129,15 +159,12 @@ const Video = () => {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src="https://picsum.photos/400/400" />
+            <Image src={channel.img}/>
             <ChannelDetail>
-              <ChannelName>Dev Tube</ChannelName>
-              <ChannelCounter>200k</ChannelCounter>
+              <ChannelName>{channel.name}</ChannelName>
+              <ChannelCounter>{channel.subscribers}</ChannelCounter>
               <Description>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                {currentVideo.desc}
               </Description>
             </ChannelDetail>
           </ChannelInfo>
@@ -146,8 +173,7 @@ const Video = () => {
         <Hr />
         <Comments />
       </Content>
-      <Recommendation>
-        {/* <Card type="sm" />
+      {/* <Recommendation>
         <Card type="sm" />
         <Card type="sm" />
         <Card type="sm" />
@@ -158,8 +184,9 @@ const Video = () => {
         <Card type="sm" />
         <Card type="sm" />
         <Card type="sm" />
-        <Card type="sm" /> */}
-      </Recommendation>
+        <Card type="sm" />
+        <Card type="sm" />
+      </Recommendation> */}
     </Container>
   );
 };
