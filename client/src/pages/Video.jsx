@@ -11,8 +11,15 @@ import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { dislike, fetchFailure, fetchStart, fetchSuccess, like } from "../redux/videoSlice";
+import {
+  dislike,
+  fetchFailure,
+  fetchStart,
+  fetchSuccess,
+  like,
+} from "../redux/videoSlice";
 import { format } from "timeago.js";
+import { subscription } from "../redux/userSlice";
 
 const Container = styled.div`
   display: flex;
@@ -99,7 +106,11 @@ const Subscribe = styled.button`
   padding: 10px 20px;
   cursor: pointer;
 `;
-
+const VideoFrame = styled.video`
+  max-height: 490px;
+  width: 100%;
+  object-fit: cover;
+`
 const Video = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const currentVideo = useSelector((state) => state.video.currentVideo);
@@ -129,19 +140,25 @@ const Video = () => {
   }, [path, dispatch]);
 
   const handleLike = async () => {
-    await axios.put(`/users/like/${currentVideo._id}`)
-    dispatch(like(currentUser._id))
-  }
+    await axios.put(`/users/like/${currentVideo._id}`);
+    dispatch(like(currentUser._id));
+  };
   const handleDislike = async () => {
-    await axios.put(`/users/dislike/${currentVideo._id}`)
-    dispatch(dislike(currentUser._id))
-  }
-
+    await axios.put(`/users/dislike/${currentVideo._id}`);
+    dispatch(dislike(currentUser._id));
+  };
+  const handleSub = async () => {
+    currentUser.subscribedUsers.includes(channel._id)
+      ? await axios.put(`/users/unsub/${channel._id}`)
+      : await axios.put(`/users/sub/${channel._id}`);
+    dispatch(subscription(channel._id));
+  };
   return (
     <Container>
       <Content>
         <VideoWrapper>
-          <iframe
+          <VideoFrame src={currentVideo.videoUrl} />
+          {/* <iframe
             width="100%"
             height="490"
             src="https://www.youtube.com/embed/yIaXoop8gl4"
@@ -149,7 +166,7 @@ const Video = () => {
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-          ></iframe>
+          ></iframe> */}
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
@@ -170,7 +187,8 @@ const Video = () => {
                 <ThumbDownIcon />
               ) : (
                 <ThumbDownOffAltOutlinedIcon />
-              )} Dislike
+              )}{" "}
+              Dislike
             </Button>
             <Button>
               <ReplyOutlinedIcon /> Share
@@ -190,7 +208,11 @@ const Video = () => {
               <Description>{currentVideo.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe>SUBSCRIBE</Subscribe>
+          <Subscribe onClick={handleSub}>
+            {currentUser.subscribedUsers?.includes(channel._id)
+              ? "SUBSCRIBED"
+              : "SUBSCRIBE"}
+          </Subscribe>
         </Channel>
         <Hr />
         <Comments />
