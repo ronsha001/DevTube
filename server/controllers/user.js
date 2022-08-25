@@ -97,7 +97,7 @@ export const dislike = async (req, res, next) => {
 
   try {
     await Video.findByIdAndUpdate(videoId, {
-      $addToSet: { dislike: userId },
+      $addToSet: { dislikes: userId },
       $pull: { likes: userId },
     });
     res.status(200).json("The video has been disliked.");

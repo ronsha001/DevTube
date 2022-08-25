@@ -15,15 +15,38 @@ export const videoSlice = createSlice({
     },
     fetchSuccess: (state, action) => {
       state.loading = false;
-      state.currentUser = action.payload;
+      state.currentVideo = action.payload;
     },
     fetchFailure: (state) => {
       state.loading = false;
       state.error = true;
     },
+    like: (state, action) => {
+      if (!state.currentVideo.likes.includes(action.payload)) {
+        // push new user like
+        state.currentVideo.likes.push(action.payload);
+        // remove user dislike if exists
+        state.currentVideo.dislikes.splice(
+          state.currentVideo.dislikes.findIndex(
+            (userId) => userId === action.payload
+          ),1
+        );
+      }
+    },
+    dislike: (state, action) => {
+      if (!state.currentVideo.dislikes.includes(action.payload)) {
+        // push new user dislike
+        state.currentVideo.dislikes.push(action.payload);
+        // remove user like if exists
+        state.currentVideo.likes.splice(
+          state.currentVideo.likes.findIndex(
+            (userId) => userId === action.payload
+          ),1
+        );
+      }
+    },
   },
 });
 
-export const { fetchStart, fetchSuccess, fetchFailure } =
-  videoSlice.actions;
+export const { fetchStart, fetchSuccess, fetchFailure, like, dislike } = videoSlice.actions;
 export default videoSlice.reducer;
