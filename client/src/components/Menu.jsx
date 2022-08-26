@@ -32,6 +32,11 @@ const Container = styled.div`
   position: sticky;
   top: 0;
   overflow-y: scroll;
+  overflow-x: hidden;
+  min-width: 200px;
+  @media (max-width: 768px) {
+    display: none;
+  }
   /* width */
   ::-webkit-scrollbar {
     width: 8px;

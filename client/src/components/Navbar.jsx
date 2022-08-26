@@ -20,12 +20,16 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 0 20px;
   position: relative;
+  @media (max-width: 768px) {
+    justify-content: space-between;
+  }
+  
 `;
 const Search = styled.div`
   width: 40%;
-  position: absolute;
+  /* position: absolute;
   left: 0;
-  right: 0;
+  right: 0; */
   margin: auto;
   display: flex;
   align-items: center;
@@ -34,6 +38,10 @@ const Search = styled.div`
   border: 1px solid #ccc;
   border-radius: 3px;
   color: ${({ theme }) => theme.textSoft};
+  @media (max-width: 768px) {
+    width: 60%;
+    padding: 10px;
+  }
 `;
 const Input = styled.input`
   border: none;
@@ -89,7 +97,7 @@ const Navbar = () => {
           {currentUser ? (
             <User>
               <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
-              <Avatar src={currentUser.img} alt="user img" />
+              <Avatar src={currentUser.img} />
               {currentUser.name}
             </User>
           ) : (
