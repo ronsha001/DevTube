@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { updateCurrentUser } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -40,6 +39,7 @@ const Comments = ({videoId}) => {
         console.log(err)
       }
     }
+    fetchComments()
   }, [videoId])
 
   return (
