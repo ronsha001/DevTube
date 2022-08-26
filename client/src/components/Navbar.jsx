@@ -3,15 +3,17 @@ import styled from "styled-components";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
+
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Upload from "./Upload";
-
 const Container = styled.div`
   position: sticky;
   top: 0;
   background-color: ${({ theme }) => theme.bgLighter};
   height: 56px;
+  z-index: 99;
 `;
 const Wrapper = styled.div`
   display: flex;
@@ -22,8 +24,8 @@ const Wrapper = styled.div`
   position: relative;
   @media (max-width: 768px) {
     justify-content: space-between;
+    padding: 0 20px;
   }
-  
 `;
 const Search = styled.div`
   width: 40%;
@@ -41,6 +43,7 @@ const Search = styled.div`
   @media (max-width: 768px) {
     width: 60%;
     padding: 10px;
+    margin: 5px 10px;
   }
 `;
 const Input = styled.input`
@@ -75,24 +78,33 @@ const Avatar = styled.img`
   border-radius: 50%;
   background-color: #999;
 `;
-
-const Navbar = () => {
+const Burger = styled.div`
+  color: ${({ theme }) => theme.text};
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+const Navbar = ({ openMenu, setOpenMenu }) => {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const currentUser = useSelector((state) => state.user.currentUser);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <>
       <Container>
         <Wrapper>
+          <Burger onClick={() => setOpenMenu(!openMenu)}>
+            <MenuIcon />
+          </Burger>
           <Search>
             <Input
               placeholder="Search"
               onChange={(e) => setQ(e.target.value)}
             />
-            <SearchOutlinedIcon onClick={() => navigate(`/search?q=${q}`)}/>
+            <SearchOutlinedIcon onClick={() => navigate(`/search?q=${q}`)} />
           </Search>
           {currentUser ? (
             <User>

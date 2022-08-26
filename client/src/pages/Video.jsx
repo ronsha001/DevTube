@@ -24,6 +24,9 @@ import Recommendation from "../components/Recommendation";
 const Container = styled.div`
   display: flex;
   gap: 24px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 const Content = styled.div`
   flex: 5;
@@ -41,6 +44,10 @@ const Details = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media (max-width: 587px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 const Info = styled.span`
   color: ${({ theme }) => theme.textSoft};

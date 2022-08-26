@@ -16,6 +16,9 @@ const Image = styled.img`
   height: ${(props) => (props.type === "sm" ? "120px" : "167px")};
   background-color: #999;
   flex: 1;
+  @media (max-width: 768px) {
+    max-width: 300px;
+  }
 `;
 const Details = styled.div`
   display: flex;
@@ -51,7 +54,7 @@ const Info = styled.div`
 
 const Card = ({ type, video }) => {
   const [channel, setChannel] = useState({});
-  
+
   useEffect(() => {
     const fetchChannel = async () => {
       const res = await axios.get(`/users/find/${video.userId}`);

@@ -8,6 +8,10 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  @media (max-width: 860px) {
+    gap: 10px;
+    justify-content: center;
+  }
 `;
 
 const Home = ({type}) => {

@@ -25,6 +25,7 @@ const Wrapper = styled.div`
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
+  const [openMenu, setOpenMenu] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
@@ -38,9 +39,9 @@ function App() {
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
         <BrowserRouter>
-          <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Menu darkMode={darkMode} setDarkMode={setDarkMode} openMenu={openMenu} />
           <Main>
-            <Navbar />
+            <Navbar openMenu={openMenu} setOpenMenu={setOpenMenu}/>
             <Wrapper>
               <Routes>
                 <Route path="/">
