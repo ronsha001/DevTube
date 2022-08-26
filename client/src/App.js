@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
 import Search from "./pages/Search";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   display: flex;
@@ -24,6 +25,7 @@ const Wrapper = styled.div`
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     const isDarkMode = localStorage.getItem("isDarkMode");
@@ -45,7 +47,7 @@ function App() {
                   <Route index element={<Home type="random" />} />
                   <Route path="trends" element={<Home type="trend" />} />
                   <Route path="subscriptions" element={<Home type="sub" />} />
-                  <Route path="sign-in" element={<SignIn />} />
+                  <Route path="sign-in" element={currentUser ? <Home type="random" /> : <SignIn />} />
                   <Route path="search" element={<Search />} />
                   <Route path="video">
                     <Route path=":id" element={<Video />} />

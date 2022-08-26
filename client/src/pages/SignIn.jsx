@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 import { auth, provider } from "../firebase.js";
 import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -67,6 +68,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -74,6 +76,7 @@ const SignIn = () => {
     try {
       const res = await axios.post("/auth/signin", { name, password });
       dispatch(loginSuccess(res.data));
+      navigate("/");
     } catch (err) {
       dispatch(loginFailure());
     }
@@ -83,14 +86,16 @@ const SignIn = () => {
     dispatch(loginStart());
     signInWithPopup(auth, provider)
       .then((result) => {
-        axios.post("/auth/google", {
-          name: result.user.displayName,
-          email: result.user.email,
-          img: result.user.photoURL,
-        })
-        .then((res) => {
-          dispatch(loginSuccess(res.data))
-        });
+        axios
+          .post("/auth/google", {
+            name: result.user.displayName,
+            email: result.user.email,
+            img: result.user.photoURL,
+          })
+          .then((res) => {
+            dispatch(loginSuccess(res.data));
+            navigate("/");
+          });
       })
       .catch((err) => {
         dispatch(loginFailure());

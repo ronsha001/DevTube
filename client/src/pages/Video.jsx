@@ -166,7 +166,7 @@ const Video = () => {
           </Info>
           <Buttons>
             <Button onClick={handleLike}>
-              {currentVideo.likes?.includes(currentUser._id) ? (
+              {currentVideo.likes?.includes(currentUser?._id) ? (
                 <ThumbUpIcon />
               ) : (
                 <ThumbUpOutlinedIcon />
@@ -174,7 +174,7 @@ const Video = () => {
               {currentVideo.likes?.length}
             </Button>
             <Button onClick={handleDislike}>
-              {currentVideo.dislikes?.includes(currentUser._id) ? (
+              {currentVideo.dislikes?.includes(currentUser?._id) ? (
                 <ThumbDownIcon />
               ) : (
                 <ThumbDownOffAltOutlinedIcon />
@@ -185,7 +185,7 @@ const Video = () => {
               <ReplyOutlinedIcon /> Share
             </Button>
             <Button>
-              <AddTaskOutlinedIcon /> Share
+              <AddTaskOutlinedIcon /> Save
             </Button>
           </Buttons>
         </Details>
@@ -200,7 +200,7 @@ const Video = () => {
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={handleSub}>
-            {currentUser.subscribedUsers?.includes(channel._id)
+            {currentUser?.subscribedUsers?.includes(channel._id)
               ? "SUBSCRIBED"
               : "SUBSCRIBE"}
           </Subscribe>
