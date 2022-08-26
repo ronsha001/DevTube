@@ -81,9 +81,13 @@ const Avatar = styled.img`
 const Burger = styled.div`
   color: ${({ theme }) => theme.text};
   display: none;
+  transform: ${(props) => props.openMenu && "rotate(90deg)"};
+  cursor: pointer;
+  transition: .3s ease-in;
   @media (max-width: 768px) {
     display: block;
   }
+
 `;
 const Navbar = ({ openMenu, setOpenMenu }) => {
   const [open, setOpen] = useState(false);
@@ -96,7 +100,7 @@ const Navbar = ({ openMenu, setOpenMenu }) => {
     <>
       <Container>
         <Wrapper>
-          <Burger onClick={() => setOpenMenu(!openMenu)}>
+          <Burger openMenu={openMenu} onClick={() => setOpenMenu(!openMenu)}>
             <MenuIcon />
           </Burger>
           <Search>
@@ -108,7 +112,7 @@ const Navbar = ({ openMenu, setOpenMenu }) => {
           </Search>
           {currentUser ? (
             <User>
-              <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
+              <VideoCallOutlinedIcon style={{cursor: 'pointer'}} onClick={() => setOpen(true)} />
               <Avatar src={currentUser.img} />
               {currentUser.name}
             </User>

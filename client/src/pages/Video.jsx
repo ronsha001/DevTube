@@ -114,7 +114,7 @@ const Subscribe = styled.button`
 const VideoFrame = styled.video`
   max-height: 490px;
   width: 100%;
-  object-fit: cover;
+  object-fit: fill;
 `
 const Video = () => {
   const currentUser = useSelector((state) => state.user.currentUser);

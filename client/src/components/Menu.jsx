@@ -34,8 +34,12 @@ const Container = styled.div`
   overflow-y: scroll;
   overflow-x: hidden;
   min-width: 200px;
+  transition: transform 0.3s ease-out;
   @media (max-width: 768px) {
-    display: none;
+    position: fixed;
+    z-index: 99;
+    transform: ${(props) => props.openMenu ? 'translateX(0%)' : 'translateX(-100%)'};
+    /* display: ${(props) => props.openMenu ? "block" : "none"}; */
   }
   /* width */
   ::-webkit-scrollbar {
@@ -120,11 +124,11 @@ const Title = styled.h2`
   margin-bottom: 20px;
 `;
 
-const Menu = ({ darkMode, setDarkMode }) => {
+const Menu = ({ darkMode, setDarkMode, openMenu }) => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch()
   return (
-    <Container>
+    <Container openMenu={openMenu}>
       <Wrapper>
         <Link to="/" style={{ textDecoration: "none" }}>
           <Logo>
