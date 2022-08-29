@@ -2,7 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
+import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
+  logout,
+} from "../redux/userSlice";
 import { auth, provider } from "../firebase.js";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -76,6 +81,14 @@ const SignIn = () => {
     try {
       const res = await axios.post("/auth/signin", { name, password });
       dispatch(loginSuccess(res.data));
+
+      const remainingMilliseconds = 60 * 60 * 1000;
+      const expiryDate = new Date().getTime() + remainingMilliseconds;
+      localStorage.setItem("expiryDate", expiryDate);
+      setTimeout(() => {
+        dispatch(logout());
+      }, remainingMilliseconds);
+
       navigate("/");
     } catch (err) {
       dispatch(loginFailure());
@@ -94,6 +107,14 @@ const SignIn = () => {
           })
           .then((res) => {
             dispatch(loginSuccess(res.data));
+            
+            const remainingMilliseconds = 60 * 60 * 1000;
+            const expiryDate = new Date().getTime() + remainingMilliseconds;
+            localStorage.setItem("expiryDate", expiryDate);
+            setTimeout(() => {
+              dispatch(logout());
+            }, remainingMilliseconds);
+
             navigate("/");
           });
       })

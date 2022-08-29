@@ -8,7 +8,9 @@ import Home from "./pages/Home";
 import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
 import Search from "./pages/Search";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { logout } from "./redux/userSlice";
 
 const Container = styled.div`
   display: flex;
@@ -26,12 +28,21 @@ const Wrapper = styled.div`
 function App() {
   const [darkMode, setDarkMode] = useState(true);
   const [openMenu, setOpenMenu] = useState(false);
+  // const [isAuth, setIsAuth] = false;
+  const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     const isDarkMode = localStorage.getItem("isDarkMode");
     if (isDarkMode === "false") {
       setDarkMode(false);
+    }
+    const expiryDate = localStorage.getItem('expiryDate');
+    if (expiryDate) {
+      console.log(expiryDate, '----', new Date().getTime())
+      setTimeout(() => {
+        dispatch(logout())
+      }, expiryDate - new Date().getTime() )
     }
   }, []);
 

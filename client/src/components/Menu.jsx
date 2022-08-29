@@ -17,7 +17,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { logout } from "../redux/userSlice";
@@ -38,8 +38,9 @@ const Container = styled.div`
   @media (max-width: 768px) {
     position: fixed;
     z-index: 99;
-    transform: ${(props) => props.openMenu ? 'translateX(0%)' : 'translateX(-100%)'};
-    /* display: ${(props) => props.openMenu ? "block" : "none"}; */
+    transform: ${(props) =>
+      props.openMenu ? "translateX(0%)" : "translateX(-100%)"};
+    /* display: ${(props) => (props.openMenu ? "block" : "none")}; */
   }
   /* width */
   ::-webkit-scrollbar {
@@ -126,7 +127,7 @@ const Title = styled.h2`
 
 const Menu = ({ darkMode, setDarkMode, openMenu }) => {
   const currentUser = useSelector((state) => state.user.currentUser);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <Container openMenu={openMenu}>
       <Wrapper>
@@ -148,28 +149,34 @@ const Menu = ({ darkMode, setDarkMode, openMenu }) => {
             Explore
           </Item>
         </Link>
-        <Link
-          to="subscriptions"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <Item>
-            <SubscriptionsOutlinedIcon />
-            Subscriptions
-          </Item>
-        </Link>
+        {currentUser && (
+          <Link
+            to="subscriptions"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Item>
+              <SubscriptionsOutlinedIcon />
+              Subscriptions
+            </Item>
+          </Link>
+        )}
 
-        <Hr />
-        <Item>
-          <VideoLibraryOutlinedIcon />
-          Library
-        </Item>
-        <Item>
-          <HistoryOutlinedIcon />
-          History
-        </Item>
+        {currentUser && (
+          <>
+            <Hr />
+            <Item>
+              <VideoLibraryOutlinedIcon />
+              Library
+            </Item>
+            <Item>
+              <HistoryOutlinedIcon />
+              History
+            </Item>
+          </>
+        )}
         <Hr />
         {currentUser ? (
-          <Link to='/' style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <Button onClick={() => dispatch(logout())}>
               <LogoutIcon /> {"Logout"}
             </Button>

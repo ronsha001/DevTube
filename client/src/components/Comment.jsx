@@ -67,7 +67,6 @@ const Comment = ({ comment, currentUser }) => {
       const res = await axios.get(`/users/find/${comment.userId}`);
       setChannel(res.data);
     };
-    console.log(comment._id)
     fetchComment();
   }, [comment.userId]);
 
