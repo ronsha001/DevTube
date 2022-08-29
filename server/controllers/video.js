@@ -51,7 +51,7 @@ export const deleteVideo = async (req, res, next) => {
       return next(createError(403, "You can delete only your video"));
     }
 
-    await Video.findOneAndDelete(videoId);
+    await Video.findOneAndDelete({_id: videoId});
     res.status(200).json("The video has been deleted");
   } catch (err) {
     next(err);

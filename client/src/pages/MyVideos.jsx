@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Card from "../components/Card";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 
 const Container = styled.div`
   display: flex;
@@ -94,13 +95,33 @@ const MyVideos = () => {
           `/videos/${details.videoId}`,
           details
         );
-        const videoIndex = videos.findIndex((video) => video._id === updatedVideo._id)
-        videos[videoIndex] = updatedVideo
-        handleClear()
+        const videoIndex = videos.findIndex(
+          (video) => video._id === updatedVideo._id
+        );
+        videos[videoIndex] = updatedVideo;
+        handleClear();
       } catch (err) {
         console.log(err);
       }
     }
+  };
+
+  const handleDelete = async (e, videoId) => {
+    e.preventDefault();
+    const videoIndex = videos.findIndex((video) => video._id === videoId)
+    const storage = getStorage();
+    // Create a reference to the file to delete
+    const desertRef = ref(storage, videos[videoIndex].videoUrl);
+
+    // Delete the file
+    deleteObject(desertRef)
+      .then(() => {
+        console.log('File deleted successfully')
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    await axios.delete(`videos/${videoId}`)
   };
 
   return (
@@ -112,6 +133,7 @@ const MyVideos = () => {
             video={video}
             edit={true}
             handleSelect={handleSelect}
+            handleDelete={handleDelete}
           />
         ))}
       </Videos>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { format } from "timeago.js";
 import VideoSettingsIcon from "@mui/icons-material/VideoSettings";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 const Container = styled.div`
   position: relative;
@@ -59,8 +60,14 @@ const Edit = styled.div`
   right: 0;
   color: ${({ theme }) => theme.textSoft};
 `;
+const Delete = styled.div`
+  position: absolute;
+  top: 78%;
+  right: 0;
+  color: ${({ theme }) => theme.textSoft};
+`;
 
-const Card = ({ type, video, edit, handleSelect }) => {
+const Card = ({ type, video, edit, handleSelect, handleDelete }) => {
   const [channel, setChannel] = useState({});
 
   useEffect(() => {
@@ -71,13 +78,22 @@ const Card = ({ type, video, edit, handleSelect }) => {
     fetchChannel();
   }, [video.userId]);
 
+
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
         {edit && (
-          <Edit title="edit this video" onClick={(e) => handleSelect(e, video)}>
-            <VideoSettingsIcon />
-          </Edit>
+          <>
+            <Edit
+              title="Edit this video"
+              onClick={(e) => handleSelect(e, video)}
+            >
+              <VideoSettingsIcon />
+            </Edit>
+            <Delete title="Delete this video" onClick={(e) => handleDelete(e, video._id)}>
+              <DeleteForeverIcon />
+            </Delete>
+          </>
         )}
         <Image type={type} src={video.imgUrl} />
         <Details type={type}>
