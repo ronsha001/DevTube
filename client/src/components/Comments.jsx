@@ -25,9 +25,21 @@ const Input = styled.input`
   padding: 5px;
   width: 100%;
 `;
+const LeaveComment = styled.button`
+  background-color: ${(props) => props.leng > 0 ? '#065fd4' : '#dbdbdb'};
+  font-weight: 500;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  height: max-content;
+  padding: 10px 20px;
+  cursor: pointer;
+`;
+
 const Comments = ({ videoId }) => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -41,16 +53,29 @@ const Comments = ({ videoId }) => {
     fetchComments();
   }, [videoId]);
 
+  const submitHandler = async () => {
+    if (comment.length > 0) {
+      const newComment = {
+        userId: currentUser._id,
+        videoId: videoId,
+        desc: comment
+      }
+      const savedComment = await axios.post('/comments', newComment)
+      setComments([...comments, savedComment.data])
+    }
+  }
+
   return (
     <Container>
       {currentUser && (
         <NewComment>
           <Avatar src={currentUser.img} />
-          <Input placeholder="Add a comment" />
+          <Input placeholder="Add a comment" onChange={(e) => setComment(e.target.value)}/>
+          <LeaveComment onClick={submitHandler} leng={comment.length}>Comment</LeaveComment>
         </NewComment>
       )}
       {comments.map((comment) => (
-        <Comment key={comment._id} comment={comment} />
+        <Comment key={comment._id} comment={comment} currentUser={currentUser}/>
       ))}
     </Container>
   );
