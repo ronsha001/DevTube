@@ -19,7 +19,6 @@ export const updateVideo = async (req, res, next) => {
   const videoId = req.params.id;
   try {
     const video = await Video.findById(videoId);
-
     if (!video) {
       return next(createError(404, "Video not found"));
     }
@@ -27,13 +26,12 @@ export const updateVideo = async (req, res, next) => {
       return next(createError(403, "You can update only your video"));
     }
 
-    const updateVideo = await Video.findByIdAndUpdate(
-      videoId,
-      {
-        $set: req.body,
-      },
-      { new: true }
-    );
+    video.title = req.body.title;
+    video.desc = req.body.desc;
+    video.tags = req.body.tags.split(',');
+
+    const updateVideo = await video.save();
+
     res.status(200).json(updateVideo);
   } catch (err) {
     next(err);
@@ -140,6 +138,17 @@ export const search = async (req, res, next) => {
       title: { $regex: query, $options: "i" },
     }).limit(40);
     res.status(200).json(videos);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const myVideos = async (req, res, next) => {
+  const userId = req.body.userId;
+  // console.log(userId)
+  try {
+    const videos = await Video.find({ useId: userId });
+    res.status(200).json({ videos });
   } catch (err) {
     next(err);
   }

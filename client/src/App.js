@@ -11,6 +11,7 @@ import Search from "./pages/Search";
 import { useDispatch, useSelector } from "react-redux";
 
 import { logout } from "./redux/userSlice";
+import MyVideos from "./pages/MyVideos";
 
 const Container = styled.div`
   display: flex;
@@ -39,7 +40,6 @@ function App() {
     }
     const expiryDate = localStorage.getItem('expiryDate');
     if (expiryDate) {
-      console.log(expiryDate, '----', new Date().getTime())
       setTimeout(() => {
         dispatch(logout())
       }, expiryDate - new Date().getTime() )
@@ -58,7 +58,8 @@ function App() {
                 <Route path="/">
                   <Route index element={<Home type="random" />} />
                   <Route path="trends" element={<Home type="trend" />} />
-                  <Route path="subscriptions" element={<Home type="sub" />} />
+                  <Route path="subscriptions" element={currentUser ? <Home type="sub" /> : <SignIn /> } />
+                  <Route path="my-videos" element={currentUser ? <MyVideos /> : <SignIn />} />
                   <Route path="sign-in" element={currentUser ? <Home type="random" /> : <SignIn />} />
                   <Route path="search" element={<Search />} />
                   <Route path="video">

@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { format } from "timeago.js";
+import VideoSettingsIcon from "@mui/icons-material/VideoSettings";
 
 const Container = styled.div`
+  position: relative;
   width: ${(props) => props.type !== "sm" && "300px"};
   margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "0 11px 45px 0")};
   cursor: pointer;
@@ -49,23 +51,34 @@ const ChannelName = styled.h2`
 const Info = styled.div`
   font-size: 14px;
   color: ${({ theme }) => theme.textSoft};
-  margin-bottom: ${(props) => props.type !== "sm" && "24px"}; ;
+  margin-bottom: ${(props) => props.type !== "sm" && "24px"};
+`;
+const Edit = styled.div`
+  position: absolute;
+  top: 65%;
+  right: 0;
+  color: ${({ theme }) => theme.textSoft};
 `;
 
-const Card = ({ type, video }) => {
+const Card = ({ type, video, edit, handleSelect }) => {
   const [channel, setChannel] = useState({});
 
   useEffect(() => {
     const fetchChannel = async () => {
       const res = await axios.get(`/users/find/${video.userId}`);
       setChannel(res.data);
-};
+    };
     fetchChannel();
   }, [video.userId]);
 
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
+        {edit && (
+          <Edit title="edit this video" onClick={(e) => handleSelect(e, video)}>
+            <VideoSettingsIcon />
+          </Edit>
+        )}
         <Image type={type} src={video.imgUrl} />
         <Details type={type}>
           <ChannelImage type={type} src={channel.img} />

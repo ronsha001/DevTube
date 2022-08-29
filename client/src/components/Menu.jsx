@@ -18,6 +18,7 @@ import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
+import VideoSettingsIcon from "@mui/icons-material/VideoSettings";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { logout } from "../redux/userSlice";
@@ -150,15 +151,26 @@ const Menu = ({ darkMode, setDarkMode, openMenu }) => {
           </Item>
         </Link>
         {currentUser && (
-          <Link
-            to="subscriptions"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Item>
-              <SubscriptionsOutlinedIcon />
-              Subscriptions
-            </Item>
-          </Link>
+          <>
+            <Link
+              to="subscriptions"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Item>
+                <SubscriptionsOutlinedIcon />
+                Subscriptions
+              </Item>
+            </Link>
+            <Link
+              to="my-videos"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Item>
+                <VideoSettingsIcon />
+                My Videos
+              </Item>
+            </Link>
+          </>
         )}
 
         {currentUser && (
