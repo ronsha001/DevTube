@@ -55,7 +55,7 @@ const MyVideos = () => {
       setVideos(res.data.videos);
     };
     fetchVideos();
-  }, []);
+  }, [currentUser._id]);
 
   const handleChange = (e) => {
     setDetails((prev) => {

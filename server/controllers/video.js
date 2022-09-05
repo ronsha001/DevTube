@@ -158,7 +158,6 @@ export const search = async (req, res, next) => {
 
 export const myVideos = async (req, res, next) => {
   const userId = req.params.id;
-  console.log(userId);
   try {
     const videos = await Video.find({ userId: userId });
     res.status(200).json({ videos });

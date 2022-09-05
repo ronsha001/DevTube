@@ -44,7 +44,7 @@ function App() {
         dispatch(logout())
       }, expiryDate - new Date().getTime() )
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
