@@ -58,6 +58,7 @@ function App() {
                 <Route path="/">
                   <Route index element={<Home type="random" />} />
                   <Route path="trends" element={<Home type="trend" />} />
+                  <Route path=":tag" element={<Home /> } />
                   <Route path="subscriptions" element={currentUser ? <Home type="sub" /> : <SignIn /> } />
                   <Route path="my-videos" element={currentUser ? <MyVideos /> : <SignIn />} />
                   <Route path="sign-in" element={currentUser ? <Home type="random" /> : <SignIn />} />

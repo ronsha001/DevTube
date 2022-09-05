@@ -19,6 +19,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import VideoSettingsIcon from "@mui/icons-material/VideoSettings";
+import DeveloperModeIcon from "@mui/icons-material/DeveloperMode";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { logout } from "../redux/userSlice";
@@ -207,30 +208,48 @@ const Menu = ({ darkMode, setDarkMode, openMenu }) => {
           </>
         )}
         <Title>BEST OF DEVTUBE</Title>
-        <Item>
-          <LibraryMusicOutlinedIcon />
-          Music
-        </Item>
-        <Item>
-          <SportsBasketballOutlinedIcon />
-          Sports
-        </Item>
-        <Item>
-          <SportsEsportsOutlinedIcon />
-          Gaming
-        </Item>
-        <Item>
-          <MovieOutlinedIcon />
-          Movies
-        </Item>
-        <Item>
-          <ArticleOutlinedIcon />
-          News
-        </Item>
-        <Item>
-          <LiveTvOutlinedIcon />
-          Live
-        </Item>
+        <Link to="Music" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <LibraryMusicOutlinedIcon />
+            Music
+          </Item>
+        </Link>
+        <Link to="Sport" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <SportsBasketballOutlinedIcon />
+            Sports
+          </Item>
+        </Link>
+        <Link to="Gaming" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <SportsEsportsOutlinedIcon />
+            Gaming
+          </Item>
+        </Link>
+        <Link to="Coding" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <DeveloperModeIcon />
+            Coding
+          </Item>
+        </Link>
+        <Link to="Movies" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <MovieOutlinedIcon />
+            Movies
+          </Item>
+        </Link>
+        <Link to="News" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <ArticleOutlinedIcon />
+            News
+          </Item>
+        </Link>
+        <Link to="Live" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <LiveTvOutlinedIcon />
+            Live
+          </Item>
+        </Link>
         <Hr />
         <Item>
           <SettingsOutlinedIcon />

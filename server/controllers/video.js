@@ -28,7 +28,7 @@ export const updateVideo = async (req, res, next) => {
 
     video.title = req.body.title;
     video.desc = req.body.desc;
-    video.tags = req.body.tags.split(',');
+    video.tags = req.body.tags.split(",");
 
     const updateVideo = await video.save();
 
@@ -51,7 +51,7 @@ export const deleteVideo = async (req, res, next) => {
       return next(createError(403, "You can delete only your video"));
     }
 
-    await Video.findOneAndDelete({_id: videoId});
+    await Video.findOneAndDelete({ _id: videoId });
     res.status(200).json("The video has been deleted");
   } catch (err) {
     next(err);
@@ -121,10 +121,20 @@ export const sub = async (req, res, next) => {
   }
 };
 
-export const getByTag = async (req, res, next) => {
+export const getByTags = async (req, res, next) => {
   const tags = req.query.tags.split(",");
   try {
     const videos = await Video.find({ tags: { $in: tags } }).limit(20);
+    res.status(200).json(videos);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getByTag = async (req, res, next) => {
+  const tag = new RegExp(req.params.tag, "i");
+  try {
+    const videos = await Video.find({ tags: { $in: tag } }).limit(20);
     res.status(200).json(videos);
   } catch (err) {
     next(err);
@@ -144,10 +154,10 @@ export const search = async (req, res, next) => {
 };
 
 export const myVideos = async (req, res, next) => {
-  const userId = req.body.userId;
-  // console.log(userId)
+  const userId = req.params.id;
+  console.log(userId);
   try {
-    const videos = await Video.find({ useId: userId });
+    const videos = await Video.find({ userId: userId });
     res.status(200).json({ videos });
   } catch (err) {
     next(err);

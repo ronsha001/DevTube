@@ -39,6 +39,10 @@ const Title = styled.h1`
   margin-bottom: 10px;
   color: ${({ theme }) => theme.text};
 `;
+const Tag = styled.span`
+  font-size: 13px;
+  color: ${({ theme }) => theme.textSoft};
+`
 
 const Details = styled.div`
   display: flex;
@@ -170,6 +174,7 @@ const Video = () => {
         <VideoWrapper>
           <VideoFrame src={currentVideo.videoUrl} controls />
         </VideoWrapper>
+        { currentVideo.tags.map((tag) => ( <Tag key={tag}>#{tag} </Tag> ))}
         <Title>{currentVideo.title}</Title>
         <Details>
           <Info>

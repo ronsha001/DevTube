@@ -61,6 +61,7 @@ const Comments = ({ videoId }) => {
         desc: comment
       }
       const savedComment = await axios.post('/comments', newComment)
+      setComment('')
       setComments([...comments, savedComment.data])
     }
   }
@@ -70,7 +71,7 @@ const Comments = ({ videoId }) => {
       {currentUser && (
         <NewComment>
           <Avatar src={currentUser.img} />
-          <Input placeholder="Add a comment" onChange={(e) => setComment(e.target.value)}/>
+          <Input placeholder="Add a comment" value={comment} onChange={(e) => setComment(e.target.value)}/>
           <LeaveComment onClick={submitHandler} leng={comment.length}>Comment</LeaveComment>
         </NewComment>
       )}

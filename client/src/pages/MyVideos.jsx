@@ -51,13 +51,11 @@ const MyVideos = () => {
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axios.get("/videos/find/my-videos", {
-        userId: currentUser._id,
-      });
+      const res = await axios.get(`/videos/find/my-videos/${currentUser._id}`);
       setVideos(res.data.videos);
     };
     fetchVideos();
-  }, [videos]);
+  }, []);
 
   const handleChange = (e) => {
     setDetails((prev) => {
@@ -95,10 +93,16 @@ const MyVideos = () => {
           `/videos/${details.videoId}`,
           details
         );
-        const videoIndex = videos.findIndex(
-          (video) => video._id === updatedVideo._id
-        );
-        videos[videoIndex] = updatedVideo;
+
+        setVideos((prev) => {
+          return prev.map((vid) => {
+            if (vid._id === details.videoId) {
+              vid = { ...updatedVideo.data };
+            }
+            return vid;
+          });
+        });
+
         handleClear();
       } catch (err) {
         console.log(err);
@@ -106,29 +110,34 @@ const MyVideos = () => {
     }
   };
 
-  const handleDelete = async (e, videoId) => {
+  const handleDelete = async (e, video) => {
     e.preventDefault();
-    const videoIndex = videos.findIndex((video) => video._id === videoId);
-    const storage = getStorage();
-    // Create a reference to the file to delete
-    const videoRef = ref(storage, videos[videoIndex].videoUrl);
-    const imageRef = ref(storage, videos[videoIndex].imgUrl);
-    // Delete the file
-    deleteObject(videoRef)
-      .then(() => {
-        console.log("Video deleted successfully");
+    if (currentUser._id === video.userId) {
+      const videoIndex = videos.findIndex((vid) => vid._id === video._id);
+      const storage = getStorage();
+      // Create a reference to the file to delete
+      const videoRef = ref(storage, videos[videoIndex].videoUrl);
+      const imageRef = ref(storage, videos[videoIndex].imgUrl);
+      // Delete the file
+      deleteObject(videoRef)
+        .then(() => {
+          console.log("Video deleted successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      deleteObject(imageRef)
+        .then(() => {
+          console.log("Image deleted successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      await axios.delete(`videos/${video._id}`);
+      setVideos((prev) => {
+        return prev.filter((vid) => vid._id !== video._id)
       })
-      .catch((error) => {
-        console.log(error);
-      });
-    deleteObject(imageRef)
-      .then(() => {
-        console.log("Image deleted successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    await axios.delete(`videos/${videoId}`);
+    }
   };
 
   return (

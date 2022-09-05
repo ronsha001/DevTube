@@ -90,7 +90,7 @@ const Card = ({ type, video, edit, handleSelect, handleDelete }) => {
             >
               <VideoSettingsIcon />
             </Edit>
-            <Delete title="Delete this video" onClick={(e) => handleDelete(e, video._id)}>
+            <Delete title="Delete this video" onClick={(e) => handleDelete(e, video)}>
               <DeleteForeverIcon />
             </Delete>
           </>

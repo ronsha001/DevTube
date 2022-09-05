@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Card from "../components/Card";
 
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -16,14 +17,15 @@ const Container = styled.div`
 
 const Home = ({ type }) => {
   const [videos, setVideos] = useState([]);
+  const tag = useLocation().pathname.split("/")[1];
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axios.get(`/videos/${type}`);
+      const res = await axios.get(`/videos/${type || tag}`);
       setVideos(res.data);
     };
     fetchVideos();
-  }, [type]);
+  }, [type, tag]);
 
   return (
     <Container>
