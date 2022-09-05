@@ -8,7 +8,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import Comments from "../components/Comments";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import {
   dislike,
@@ -42,7 +42,11 @@ const Title = styled.h1`
 const Tag = styled.span`
   font-size: 13px;
   color: ${({ theme }) => theme.textSoft};
-`
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
+`;
 
 const Details = styled.div`
   display: flex;
@@ -125,7 +129,6 @@ const Video = () => {
   const currentVideo = useSelector((state) => state.video.currentVideo);
 
   const dispatch = useDispatch();
-
   const path = useLocation().pathname.split("/")[2];
 
   const [channel, setChannel] = useState({});
@@ -137,7 +140,7 @@ const Video = () => {
         const channelRes = await axios.get(
           `/users/find/${videoRes.data.userId}`
         );
-        
+
         setChannel(channelRes.data);
         dispatch(fetchStart());
         dispatch(fetchSuccess(videoRes.data));
@@ -176,7 +179,11 @@ const Video = () => {
         <VideoWrapper>
           <VideoFrame src={currentVideo.videoUrl} controls />
         </VideoWrapper>
-        { currentVideo.tags.map((tag) => ( <Tag key={tag}>#{tag} </Tag> ))}
+        {currentVideo.tags.map((tag) => (
+          <Link to={`/${tag}`} key={tag} style={{ textDecoration: "none", color: "inherit" }}>
+            <Tag>#{tag} </Tag>
+          </Link>
+        ))}
         <Title>{currentVideo.title}</Title>
         <Details>
           <Info>
