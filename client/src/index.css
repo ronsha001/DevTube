@@ -1,7 +1,21 @@
-body {
-  margin: 0;
-  padding: 0;
+/* width */
+body::-webkit-scrollbar {
+  width: 8px;
 }
-body * {
-  font-family: 'Open Sans', sans-serif;
+
+/* Track */
+body::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+/* Handle */
+body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #888;
+}
+
+/* Handle on hover */
+body::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
