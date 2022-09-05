@@ -108,20 +108,27 @@ const MyVideos = () => {
 
   const handleDelete = async (e, videoId) => {
     e.preventDefault();
-    const videoIndex = videos.findIndex((video) => video._id === videoId)
+    const videoIndex = videos.findIndex((video) => video._id === videoId);
     const storage = getStorage();
     // Create a reference to the file to delete
-    const desertRef = ref(storage, videos[videoIndex].videoUrl);
-
+    const videoRef = ref(storage, videos[videoIndex].videoUrl);
+    const imageRef = ref(storage, videos[videoIndex].imgUrl);
     // Delete the file
-    deleteObject(desertRef)
+    deleteObject(videoRef)
       .then(() => {
-        console.log('File deleted successfully')
+        console.log("Video deleted successfully");
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       });
-    await axios.delete(`videos/${videoId}`)
+    deleteObject(imageRef)
+      .then(() => {
+        console.log("Image deleted successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    await axios.delete(`videos/${videoId}`);
   };
 
   return (

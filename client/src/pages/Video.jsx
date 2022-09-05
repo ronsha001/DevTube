@@ -69,7 +69,6 @@ const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
-
 const Channel = styled.div`
   display: flex;
   justify-content: space-between;
@@ -115,7 +114,7 @@ const VideoFrame = styled.video`
   max-height: 490px;
   width: 100%;
   object-fit: fill;
-`
+`;
 const Video = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const currentVideo = useSelector((state) => state.video.currentVideo);
@@ -129,7 +128,6 @@ const Video = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
         const videoRes = await axios.get(`/videos/find/${path}`);
         const channelRes = await axios.get(
           `/users/find/${videoRes.data.userId}`
@@ -137,7 +135,7 @@ const Video = () => {
         setChannel(channelRes.data);
         dispatch(fetchStart());
         dispatch(fetchSuccess(videoRes.data));
-        await axios.put(`/videos/view/${currentVideo._id}`)
+        await axios.put(`/videos/view/${currentVideo._id}`);
       } catch (err) {
         console.log("here", err);
         dispatch(fetchFailure());
@@ -147,18 +145,24 @@ const Video = () => {
   }, [path, dispatch]);
 
   const handleLike = async () => {
-    await axios.put(`/users/like/${currentVideo._id}`);
-    dispatch(like(currentUser._id));
+    if (currentUser) {
+      await axios.put(`/users/like/${currentVideo._id}`);
+      dispatch(like(currentUser._id));
+    }
   };
   const handleDislike = async () => {
-    await axios.put(`/users/dislike/${currentVideo._id}`);
-    dispatch(dislike(currentUser._id));
+    if (currentUser) {
+      await axios.put(`/users/dislike/${currentVideo._id}`);
+      dispatch(dislike(currentUser._id));
+    }
   };
   const handleSub = async () => {
-    currentUser.subscribedUsers.includes(channel._id)
-      ? await axios.put(`/users/unsub/${channel._id}`)
-      : await axios.put(`/users/sub/${channel._id}`);
-    dispatch(subscription(channel._id));
+    if (currentUser) {
+      currentUser.subscribedUsers.includes(channel._id)
+        ? await axios.put(`/users/unsub/${channel._id}`)
+        : await axios.put(`/users/sub/${channel._id}`);
+      dispatch(subscription(channel._id));
+    }
   };
   return (
     <Container>
@@ -186,7 +190,7 @@ const Video = () => {
               ) : (
                 <ThumbDownOffAltOutlinedIcon />
               )}{" "}
-              Dislike
+              {currentVideo.dislikes?.length}
             </Button>
             <Button>
               <ReplyOutlinedIcon /> Share
@@ -213,9 +217,9 @@ const Video = () => {
           </Subscribe>
         </Channel>
         <Hr />
-        <Comments videoId={currentVideo._id}/>
+        <Comments videoId={currentVideo._id} />
       </Content>
-      <Recommendation tags={currentVideo.tags}/> 
+      <Recommendation tags={currentVideo.tags} />
     </Container>
   );
 };

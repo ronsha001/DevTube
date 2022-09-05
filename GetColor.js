@@ -1,0 +1,177 @@
+// Source: https://www.rapidtables.com/web/color/RGB_Color.html
+const colors = [
+  { black: { r: 0, g: 0, b: 0 } },
+  { white: { r: 255, g: 255, b: 255 } },
+  { red: { r: 255, g: 0, b: 0 } },
+  { lime: { r: 0, g: 255, b: 0 } },
+  { blue: { r: 0, g: 0, b: 255 } },
+  { yellow: { r: 255, g: 255, b: 0 } },
+  { aqua: { r: 0, g: 255, b: 255 } },
+  { fuchsia: { r: 255, g: 0, b: 255 } },
+  { silver: { r: 192, g: 192, b: 192 } },
+  { gray: { r: 128, g: 128, b: 128 } },
+  { maroon: { r: 128, g: 0, b: 0 } },
+  { olive: { r: 128, g: 128, b: 0 } },
+  { green: { r: 0, g: 128, b: 0 } },
+  { purple: { r: 128, g: 0, b: 128 } },
+  { teal: { r: 0, g: 128, b: 128 } },
+  { navy: { r: 0, g: 0, b: 128 } },
+  { maroon: { r: 128, g: 0, b: 0 } },
+  { darkRed: { r: 139, g: 0, b: 0 } },
+  { brown: { r: 165, g: 42, b: 42 } },
+  { firebrick: { r: 178, g: 34, b: 34 } },
+  { crimson: { r: 220, g: 20, b: 60 } },
+  { tomato: { r: 255, g: 99, b: 71 } },
+  { coral: { r: 255, g: 127, b: 80 } },
+  { indianRed: { r: 205, g: 92, b: 92 } },
+  { lightCoral: { r: 240, g: 128, b: 128 } },
+  { darkSalmon: { r: 233, g: 150, b: 122 } },
+  { salmon: { r: 250, g: 128, b: 114 } },
+  { "light salmon": { r: 250, g: 160, b: 122 } },
+  { orangeRed: { r: 255, g: 69, b: 0 } },
+  { darkOrange: { r: 255, g: 140, b: 0 } },
+  { orange: { r: 255, g: 165, b: 0 } },
+  { gold: { r: 255, g: 215, b: 0 } },
+  { "dark golden rod": { r: 184, g: 134, b: 11 } },
+  { "golden rod": { r: 218, g: 165, b: 0 } },
+  { "pale golden rod": { r: 238, g: 232, b: 170 } },
+  { "dark khaki": { r: 189, g: 183, b: 107 } },
+  { khaki: { r: 240, g: 230, b: 140 } },
+  { "yellow green": { r: 154, g: 205, b: 50 } },
+  { "dark olive green": { r: 85, g: 107, b: 47 } },
+  { "olive drab": { r: 107, g: 142, b: 35 } },
+  { "lawn green": { r: 124, g: 252, b: 0 } },
+  { chartreuse: { r: 127, g: 255, b: 0 } },
+  { "green yellow": { r: 173, g: 255, b: 47 } },
+  { "dark green": { r: 0, g: 100, b: 0 } },
+  { "forest green": { r: 34, g: 139, b: 34 } },
+  { "lime green": { r: 50, g: 205, b: 50 } },
+  { "light green": { r: 144, g: 238, b: 144 } },
+  { "pale green": { r: 152, g: 251, b: 152 } },
+  { "dark sea green": { r: 143, g: 188, b: 143 } },
+  { "medium spring green": { r: 0, g: 250, b: 154 } },
+  { "spring green": { r: 0, g: 255, b: 127 } },
+  { "sea green": { r: 46, g: 139, b: 87 } },
+  { "medium aqua marine": { r: 102, g: 205, b: 170 } },
+  { "medium sea green": { r: 60, g: 179, b: 113 } },
+  { "light sea green": { r: 32, g: 178, b: 170 } },
+  { "dark slate gray": { r: 47, g: 79, b: 79 } },
+  { teal: { r: 0, g: 128, b: 128 } },
+  { "dark cyan": { r: 0, g: 139, b: 139 } },
+  { "light cyan": { r: 224, g: 255, b: 255 } },
+  { "dark turquoise": { r: 0, g: 206, b: 209 } },
+  { turquoise: { r: 64, g: 224, b: 208 } },
+  { "medium turquoise": { r: 72, g: 209, b: 204 } },
+  { "pale turquoise": { r: 175, g: 238, b: 238 } },
+  { "aqua marine": { r: 127, g: 255, b: 212 } },
+  { "powder blue": { r: 176, g: 224, b: 230 } },
+  { "cadet blue": { r: 95, g: 158, b: 160 } },
+  { "steel blue": { r: 70, g: 130, b: 180 } },
+  { "corn flower blue": { r: 100, g: 149, b: 237 } },
+  { "deep sky blue": { r: 0, g: 191, b: 255 } },
+  { "dodger blue": { r: 30, g: 144, b: 255 } },
+  { "light blue": { r: 173, g: 216, b: 230 } },
+  { "sky blue": { r: 135, g: 206, b: 250 } },
+  { "light sky blue": { r: 135, g: 206, b: 250 } },
+  { "midnight blue": { r: 25, g: 25, b: 112 } },
+  { navy: { r: 0, g: 0, b: 128 } },
+  { "dark blue": { r: 0, g: 0, b: 139 } },
+  { "medium blue": { r: 0, g: 0, b: 205 } },
+  { "royal blue": { r: 65, g: 405, b: 225 } },
+  { "blue violet": { r: 138, g: 43, b: 226 } },
+  { indigo: { r: 75, g: 0, b: 130 } },
+  { "dark slate blue": { r: 72, g: 61, b: 139 } },
+  { "slate blue": { r: 206, g: 90, b: 205 } },
+  { "medium slate blue": { r: 123, g: 104, b: 238 } },
+  { "medium purple": { r: 147, g: 112, b: 219 } },
+  { "dark magenta": { r: 130, g: 0, b: 139 } },
+  { "dark violet": { r: 148, g: 0, b: 211 } },
+  { "dark orchid": { r: 153, g: 50, b: 204 } },
+  { "medium orchid": { r: 186, g: 85, b: 211 } },
+  { purple: { r: 128, g: 0, b: 128 } },
+  { thistle: { r: 216, g: 191, b: 216 } },
+  { plum: { r: 221, g: 160, b: 221 } },
+  { violet: { r: 238, g: 130, b: 238 } },
+  { fuchsia: { r: 255, g: 0, b: 255 } },
+  { orchid: { r: 218, g: 112, b: 214 } },
+  { "medium violet red": { r: 199, g: 21, b: 133 } },
+  { "pale violet red": { r: 219, g: 112, b: 147 } },
+  { "deep pink": { r: 255, g: 20, b: 147 } },
+  { "hot pink": { r: 255, g: 105, b: 180 } },
+  { "light pink": { r: 255, g: 182, b: 193 } },
+  { pink: { r: 255, g: 192, b: 203 } },
+  { "antique white": { r: 250, g: 235, b: 215 } },
+  { beige: { r: 245, g: 245, b: 220 } },
+  { bisque: { r: 255, g: 228, b: 196 } },
+  { "blanched almond": { r: 255, g: 235, b: 205 } },
+  { wheat: { r: 245, g: 222, b: 179 } },
+  { "corn silk": { r: 255, g: 248, b: 220 } },
+  { "lemon chiffon": { r: 255, g: 250, b: 205 } },
+  { "light golden rod yellow": { r: 250, g: 250, b: 210 } },
+  { "light yellow": { r: 255, g: 255, b: 224 } },
+  { "saddle brown": { r: 139, g: 69, b: 19 } },
+  { sienna: { r: 160, g: 82, b: 45 } },
+  { chocolate: { r: 210, g: 105, b: 30 } },
+  { peru: { r: 205, g: 133, b: 63 } },
+  { "sandy brown": { r: 244, g: 164, b: 96 } },
+  { "burly wood": { r: 222, g: 184, b: 135 } },
+  { tan: { r: 210, g: 180, b: 140 } },
+  { "rosy brown": { r: 288, g: 143, b: 143 } },
+  { moccasin: { r: 255, g: 228, b: 181 } },
+  { "navajo white": { r: 255, g: 222, b: 173 } },
+  { "peach puff": { r: 255, g: 218, b: 185 } },
+  { "misty rose": { r: 255, g: 228, b: 225 } },
+  { "lavender blush": { r: 255, g: 240, b: 245 } },
+  { linen: { r: 250, g: 240, b: 245 } },
+  { "old lace": { r: 253, g: 245, b: 230 } },
+  { "papaya whip": { r: 255, g: 239, b: 213 } },
+  { "sea shell": { r: 255, g: 245, b: 238 } },
+  { "mint cream": { r: 245, g: 255, b: 250 } },
+  { "slate gray": { r: 112, g: 128, b: 144 } },
+  { "light slate gray": { r: 119, g: 136, b: 153 } },
+  { "light steel blue": { r: 176, g: 196, b: 222 } },
+  { lavender: { r: 230, g: 230, b: 250 } },
+  { "floral white": { r: 255, g: 250, b: 240 } },
+  { "alice blue": { r: 240, g: 248, b: 255 } },
+  { "ghost white": { r: 248, g: 248, b: 255 } },
+  { honeydew: { r: 240, g: 255, b: 240 } },
+  { ivory: { r: 255, g: 255, b: 240 } },
+  { azure: { r: 240, g: 255, b: 255 } },
+  { snow: { r: 255, g: 250, b: 250 } },
+  { "dim grey": { r: 105, g: 105, b: 105 } },
+  { "dark grey": { r: 169, g: 169, b: 169 } },
+  { "light grey": { r: 211, g: 211, b: 211 } },
+  { gainsboro: { r: 220, g: 220, b: 220 } },
+  { "white smoke": { r: 245, g: 245, b: 245 } },
+];
+
+const getColor = (r, g, b) => {
+  // If rgb values not in range return error message.
+  if (r > 255 || r < 0 || g > 255 || g < 0 || b > 255 || b < 0) {
+    return "rgb values must be in (0-255) range."
+  }
+  // "distance" representing the user's parameters (r, g, b) - (colors.r, colors.g, colors.b). colors an array of colors. distance will always be positive.
+  let distance = 0;
+
+  // 255 * 3 + 1 (highest r+g+b value is 765)
+  let lowestDistance = 766; 
+  // Color to return
+  let color = "";
+  // Loop through all colors in colors Array
+  for (const i in colors) { // "colors" is an array of objects. Example: [{ Red: { r: 255, g: 0, b: 0 } }, ...]
+    const key = Object.keys(colors[i]); // "key" is an array which representing the name of the rgb. Example: Red, Blue ...
+    distance = Math.abs(r - colors[i][key].r);
+    distance += Math.abs(g - colors[i][key].g);
+    distance += Math.abs(b - colors[i][key].b);
+    // if the current distance is less than lowestDistance - set lowestDistance to distance and keep the color name in "color" variable
+    if (distance < lowestDistance) {
+      lowestDistance = distance;
+      color = key;
+    }
+  }
+  // This will return the most similar color name to the rgb that has been sent by the user
+  return color[0];
+};
+
+const color = getColor(96, 117, 94)
+console.log(color);
