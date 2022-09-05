@@ -28,8 +28,8 @@ router.put("/view/:id", addView);
 router.get("/trend", trend);
 router.get("/random", random);
 router.get("/sub", verifyToken, sub);
+router.get("/search", search);
 router.get("/:id/tags", getByTags);
 router.get("/:tag", getByTag);
-router.get("/search", search);
 
 export default router;

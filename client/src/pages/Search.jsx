@@ -13,6 +13,7 @@ const Container = styled.div`
 const Search = () => {
   const [videos, setVideos] = useState([])
   const query = useLocation().search;
+  console.log(query)
   useEffect(() => {
     const fetchVideos = async () => {
       const res = await axios.get(`/videos/search${query}`)

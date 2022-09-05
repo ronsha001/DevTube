@@ -126,7 +126,6 @@ export const getByTags = async (req, res, next) => {
     return new RegExp(tag, "i");
   });
   const videoId = req.params.id;
-  console.log(videoId)
   try {
     const videos = await Video.find({ tags: { $in: tags }, _id: { $nin: videoId } }).limit(20);
     res.status(200).json(videos);
