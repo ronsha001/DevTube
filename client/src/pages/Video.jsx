@@ -83,9 +83,10 @@ const ChannelInfo = styled.div`
   gap: 20px;
 `;
 const Image = styled.img`
-  width: 50px;
-  height: 50px;
+  min-width: 50px;
+  max-height: 50px;
   border-radius: 50%;
+  background-color: #999;
 `;
 const ChannelDetail = styled.div`
   display: flex;

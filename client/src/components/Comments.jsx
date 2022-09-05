@@ -11,8 +11,8 @@ const NewComment = styled.div`
   gap: 10px;
 `;
 const Avatar = styled.img`
-  width: 50px;
-  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
   background-color: #999;
 `;
