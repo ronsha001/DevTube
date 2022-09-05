@@ -17,7 +17,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - 56px);
+  height: calc(100vh);
   color: ${({ theme }) => theme.text};
 `;
 const Wrapper = styled.div`
@@ -95,6 +95,26 @@ const SignIn = () => {
     }
   };
 
+  const handleSignUp = async (e) => {
+    e.preventDefault()
+    try {
+      await axios.post("/auth/signup", { name, password, email })
+      const res = await axios.post("/auth/signin", { name, password });
+      dispatch(loginSuccess(res.data));
+
+      const remainingMilliseconds = 60 * 60 * 1000;
+      const expiryDate = new Date().getTime() + remainingMilliseconds;
+      localStorage.setItem("expiryDate", expiryDate);
+      setTimeout(() => {
+        dispatch(logout());
+      }, remainingMilliseconds);
+
+      navigate("/");
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   const signInWithGoogle = async () => {
     dispatch(loginStart());
     signInWithPopup(auth, provider)
@@ -156,7 +176,7 @@ const SignIn = () => {
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button>Sign Up</Button>
+        <Button onClick={handleSignUp}>Sign Up</Button>
       </Wrapper>
       <More>
         English(USA)
