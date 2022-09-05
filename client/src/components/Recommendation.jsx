@@ -7,12 +7,12 @@ const Container = styled.div`
   flex: 2;
 `;
 
-const Recommendation = ({ tags }) => {
+const Recommendation = ({ tags, videoId }) => {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axios.get(`/videos/tags?tags=${tags}`);
+      const res = await axios.get(`/videos/${videoId}/tags?tags=${tags}`);
       setVideos(res.data);
     };
     fetchVideos();
