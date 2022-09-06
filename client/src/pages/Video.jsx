@@ -146,7 +146,7 @@ const Video = () => {
         dispatch(fetchSuccess(videoRes.data));
         await axios.put(`/videos/view/${currentVideo._id}`);
       } catch (err) {
-        console.log("here", err);
+        console.log(err);
         dispatch(fetchFailure());
       }
     };

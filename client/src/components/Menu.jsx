@@ -251,10 +251,14 @@ const Menu = ({ darkMode, setDarkMode, openMenu }) => {
           </Item>
         </Link>
         <Hr />
-        <Item>
-          <SettingsOutlinedIcon />
-          Settings
-        </Item>
+        {currentUser && (
+          <Link to="Settings" style={{ textDecoration: "none", color: "inherit" }}>
+            <Item>
+              <SettingsOutlinedIcon />
+              Settings
+            </Item>
+          </Link>
+        )}
         <Item>
           <FlagOutlinedIcon />
           Report

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { logout } from "./redux/userSlice";
 import MyVideos from "./pages/MyVideos";
+import Settings from "./pages/Settings";
 
 const Container = styled.div`
   display: flex;
@@ -62,6 +63,7 @@ function App() {
                   <Route path="subscriptions" element={currentUser ? <Home type="sub" /> : <SignIn /> } />
                   <Route path="my-videos" element={currentUser ? <MyVideos /> : <SignIn />} />
                   <Route path="sign-in" element={currentUser ? <Home type="random" /> : <SignIn />} />
+                  <Route path="settings" element={currentUser ? <Settings /> : <SignIn />} />
                   <Route path="search" element={<Search />} />
                   <Route path="video">
                     <Route path=":id" element={<Video />} />

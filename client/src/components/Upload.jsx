@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import {
   getStorage,
   ref,
@@ -78,7 +78,7 @@ const Upload = ({ setOpen }) => {
   const [inputs, setInputs] = useState({});
   const [tags, setTags] = useState([]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -139,10 +139,10 @@ const Upload = ({ setOpen }) => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    const res = await axios.post('/videos', {...inputs, tags})
-    setOpen(false)
-    res.status === 200 && navigate(`/video/${res.data._id}`)
-  }
+    const res = await axios.post("/videos", { ...inputs, tags });
+    setOpen(false);
+    res.status === 200 && navigate(`/video/${res.data._id}`);
+  };
 
   return (
     <Container>
