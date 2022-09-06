@@ -7,8 +7,9 @@ import { useLocation } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
+  gap: 15px;
   @media (max-width: 860px) {
     gap: 10px;
     justify-content: center;

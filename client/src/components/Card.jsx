@@ -39,7 +39,7 @@ const ChannelImage = styled.img`
 `;
 const Texts = styled.div``;
 const Title = styled.h1`
-  font-size: 16px;
+  font-size: ${(props) => (props.type === "sm" ? "13px" : "16px")};
   font-weight: 500;
   color: ${({ theme }) => theme.text};
   margin: 0;
@@ -47,27 +47,38 @@ const Title = styled.h1`
 const ChannelName = styled.h2`
   font-size: 14px;
   color: ${({ theme }) => theme.textSoft};
-  margin: 9px 0;
+  margin: ${(props) => (props.type === "sm" ? "4px" : "9px 0")};
 `;
 const Info = styled.div`
   font-size: 14px;
   color: ${({ theme }) => theme.textSoft};
-  margin-bottom: ${(props) => props.type !== "sm" && "24px"};
+  margin-bottom: ${(props) => (props.type === "sm" ? "0" : "24px")};
 `;
 const Edit = styled.div`
   position: absolute;
-  top: 65%;
-  right: 0;
-  color: ${({ theme }) => theme.textSoft};
+  top: 15px;
+  right: 15px;
+  color: ${({ theme }) => theme.text};
+  transition: 0.3s ease-out;
+  &:hover {
+    color: #0077cc;
+    transition: 0.3s ease-out;
+  }
 `;
 const Delete = styled.div`
   position: absolute;
-  top: 78%;
-  right: 0;
-  color: ${({ theme }) => theme.textSoft};
+  top: calc(85% - 24px);
+  top: 45px;
+  right: 15px;
+  color: ${({ theme }) => theme.text};
+  transition: .3s ease-out;
+  &:hover {
+    color: #cc1a00;
+  transition: .3s ease-out;
+  }
 `;
 
-const Card = ({ type, video, edit, handleSelect, handleDelete }) => {
+const Card = ({ type, video, edit, handleSelect, handleSetPopUp }) => {
   const [channel, setChannel] = useState({});
 
   useEffect(() => {
@@ -77,7 +88,6 @@ const Card = ({ type, video, edit, handleSelect, handleDelete }) => {
     };
     fetchChannel();
   }, [video.userId]);
-
 
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
@@ -90,18 +100,21 @@ const Card = ({ type, video, edit, handleSelect, handleDelete }) => {
             >
               <VideoSettingsIcon />
             </Edit>
-            <Delete title="Delete this video" onClick={(e) => handleDelete(e, video)}>
+            <Delete
+              title="Delete this video"
+              onClick={(e) => handleSetPopUp(e, video)}
+            >
               <DeleteForeverIcon />
             </Delete>
           </>
         )}
         <Image type={type} src={video.imgUrl} />
         <Details type={type}>
-          <ChannelImage type={type} src={channel.img}  />
+          <ChannelImage type={type} src={channel.img} />
           <Texts>
-            <Title>{video.title}</Title>
-            <ChannelName>{channel.name}</ChannelName>
-            <Info>
+            <Title type={type}>{video.title}</Title>
+            <ChannelName type={type}>{channel.name}</ChannelName>
+            <Info type={type}>
               {video.views} views • {format(video.createdAt)}
             </Info>
           </Texts>
