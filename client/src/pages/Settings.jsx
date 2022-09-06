@@ -12,7 +12,6 @@ import {
 import app from "../firebase.js";
 import axios from "axios";
 import { loginSuccess } from "../redux/userSlice.js";
-import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -64,7 +63,6 @@ const Avatar = styled.img`
 `;
 
 const Settings = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
   const [userInfo, setUserInfo] = useState({
