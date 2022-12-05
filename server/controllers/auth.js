@@ -63,9 +63,7 @@ export const googleAuth = async (req, res, next) => {
         { expiresIn: "1h" }
       );
       res
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
+        .cookie("access_token", token)
         .status(200)
         .json(user._doc);
     } else {

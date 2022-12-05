@@ -136,6 +136,9 @@ const SignIn = () => {
             }, remainingMilliseconds);
 
             navigate("/");
+          })
+          .catch((err) => {
+            throw Error(err)
           });
       })
       .catch((err) => {

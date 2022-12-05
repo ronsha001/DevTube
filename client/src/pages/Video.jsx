@@ -140,71 +140,70 @@ const Video = () => {
         const channelRes = await axios.get(
           `/users/find/${videoRes.data.userId}`
         );
-
         setChannel(channelRes.data);
         dispatch(fetchStart());
         dispatch(fetchSuccess(videoRes.data));
-        await axios.put(`/videos/view/${currentVideo._id}`);
+        await axios.put(`/videos/view/${currentVideo?._id}`);
       } catch (err) {
         console.log(err);
         dispatch(fetchFailure());
       }
     };
-    fetchData();
-  }, [path, dispatch, currentVideo._id]);
+    fetchData().catch(console.error);
+  }, [path, dispatch, currentVideo?._id]);
 
   const handleLike = async () => {
     if (currentUser) {
-      await axios.put(`/users/like/${currentVideo._id}`);
-      dispatch(like(currentUser._id));
+      await axios.put(`/users/like/${currentVideo?._id}`);
+      dispatch(like(currentUser?._id));
     }
   };
   const handleDislike = async () => {
     if (currentUser) {
-      await axios.put(`/users/dislike/${currentVideo._id}`);
-      dispatch(dislike(currentUser._id));
+      await axios.put(`/users/dislike/${currentVideo?._id}`);
+      dispatch(dislike(currentUser?._id));
     }
   };
   const handleSub = async () => {
     if (currentUser) {
-      currentUser.subscribedUsers.includes(channel._id)
-        ? await axios.put(`/users/unsub/${channel._id}`)
-        : await axios.put(`/users/sub/${channel._id}`);
-      dispatch(subscription(channel._id));
+      currentUser.subscribedUsers.includes(channel?._id)
+        ? await axios.put(`/users/unsub/${channel?._id}`)
+        : await axios.put(`/users/sub/${channel?._id}`);
+      dispatch(subscription(channel?._id));
     }
   };
   return (
     <Container>
       <Content>
         <VideoWrapper>
-          <VideoFrame src={currentVideo.videoUrl} controls />
+          <VideoFrame src={currentVideo?.videoUrl} controls />
         </VideoWrapper>
-        {currentVideo.tags.map((tag) => (
+        {currentVideo?.tags.map((tag) => (
           <Link to={`/${tag}`} key={tag} style={{ textDecoration: "none", color: "inherit" }}>
             <Tag>#{tag} </Tag>
           </Link>
         ))}
-        <Title>{currentVideo.title}</Title>
+        <Title>{currentVideo?.title}</Title>
         <Details>
           <Info>
-            {currentVideo.views} views • {format(currentVideo.createdAt)}
+            {currentVideo?.views} views • {format(currentVideo?.createdAt)}
           </Info>
           <Buttons>
             <Button onClick={handleLike}>
-              {currentVideo.likes?.includes(currentUser?._id) ? (
+              {currentVideo?.likes?.includes(currentUser?._id) ? (
                 <ThumbUpIcon />
               ) : (
                 <ThumbUpOutlinedIcon />
               )}{" "}
-              {currentVideo.likes?.length}
+              {currentVideo?.likes?.length}
             </Button>
             <Button onClick={handleDislike}>
-              {currentVideo.dislikes?.includes(currentUser?._id) ? (
+              {currentVideo?.dislikes?.includes(currentUser?._id) ? (
                 <ThumbDownIcon />
               ) : (
                 <ThumbDownOffAltOutlinedIcon />
               )}{" "}
-              {currentVideo.dislikes?.length}
+              {currentVideo?.dislikes?.length}
             </Button>
             <Button>
               <ReplyOutlinedIcon /> Share
@@ -221,19 +220,19 @@ const Video = () => {
             <ChannelDetail>
               <ChannelName>{channel.name}</ChannelName>
               <ChannelCounter>{channel.subscribers}</ChannelCounter>
-              <Description>{currentVideo.desc}</Description>
+              <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={handleSub}>
-            {currentUser?.subscribedUsers?.includes(channel._id)
+            {currentUser?.subscribedUsers?.includes(channel?._id)
               ? "SUBSCRIBED"
               : "SUBSCRIBE"}
           </Subscribe>
         </Channel>
         <Hr />
-        <Comments videoId={currentVideo._id} />
+        <Comments videoId={currentVideo?._id} />
       </Content>
-      <Recommendation tags={currentVideo.tags} videoId={currentVideo._id} />
+      <Recommendation tags={currentVideo?.tags} videoId={currentVideo?._id} />
     </Container>
   );
 };
